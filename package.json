@@ -1,6 +1,6 @@
 {
   "name": "teng-koa",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Simple & fast REST API Framework.",
   "main": "core.js",
   "engines": {
@@ -16,6 +16,7 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
+    "chai": "^4.1.2",
     "eslint": "^4.16.0",
     "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-plugin-import": "^2.8.0",
@@ -41,17 +42,21 @@
     "koa-bodyparser": "^4.2.0",
     "koa-compress": "^2.0.0",
     "koa-favicon": "^2.0.0",
+    "koa-helmet": "^3.3.0",
     "koa-json": "^2.0.2",
-    "koa-json-error": "^3.1.2",
     "koa-jsonp": "^2.0.2",
+    "koa-query-pretty": "^0.3.0",
     "koa-router": "^7.3.0",
     "lodash": "^4.17.4",
+    "lodash.compact": "^3.0.1",
+    "lodash.curry": "^4.1.1",
     "mysql2": "^1.5.1",
     "nconf": "^0.10.0",
     "nodemailer": "^4.4.2",
     "passthrough-counter": "^1.0.0",
     "redis": "^2.8.0",
     "sequelize": "^4.32.2",
+    "simple-netease-cloud-music": "^0.3.2",
     "uuid": "^3.2.1",
     "winston": "^2.4.0"
   }

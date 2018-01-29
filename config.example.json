@@ -12,6 +12,7 @@
         "port": "",
         "encrypt": "ssl"
     },
+	"admin":"yourmail@domain.com",
     "database": "mysql",
     "mysql": {
         "host": "127.0.0.1",
@@ -26,5 +27,5 @@
         "password": "",
         "database": 0
     },
-    "log_level": "debug"
+    "log_level": "info"
 }

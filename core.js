@@ -7,12 +7,15 @@ const colors = require('colors/safe')
 const Koa = require('koa') // Koa v2
 // const mail = require('./src/mail')
 
-// Register Server
-const app = new Koa()
-
 // PreStart
 const preStart = require('./src/prestart')
 preStart.load()
+
+// Use blubird promise
+global.Promise = require('bluebird')
+
+// Register Server
+const app = new Koa()
 
 // Load CronJob
 const cron = require('./src/cron')
@@ -32,7 +35,6 @@ async function registerMiddlewares () {
     process.exit(1)
   }
 }
-registerMiddlewares()
 
 // Load Route
 async function registerRoutes (routes) {
@@ -54,12 +56,13 @@ async function registerRoutes (routes) {
     process.exit(1)
   }
 }
-const Routes = require('./src/route')
-registerRoutes(new Routes())
 
 // Start Server
 async function start () {
   try {
+    await registerMiddlewares()
+    const Routes = require('./src/route')
+    await registerRoutes(new Routes())
     await app.listen(nconf.get('server:port'))
   } catch (e) {
     winston.error(e)

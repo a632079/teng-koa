@@ -4,9 +4,14 @@ module.exports = [
   // MiddleWares
   require('./src/middlewares/requestId')(),
   require('./src/middlewares/responseHandler')(),
-  require('./src/middlewares/countRequest')(),
+  require('./src/middlewares/countRequests')(),
+
+  // Mail Error
+  require('./src/middlewares/MailError')(),
 
   // Basic Plugins
+  require('koa-helmet')(),
+  require('koa-query-pretty')(),
   require('koa-json')(),
   require('koa-jsonp')(),
   require('koa-bodyparser')({
@@ -17,7 +22,7 @@ module.exports = [
   require('kcors')({
     origin: '*',
     allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
-    exposeHeaders: ['X-Request-Id', 'X-Api-Token'] // Need Api-token
+    exposeHeaders: ['X-Request-Id']
   }),
   require('koa-favicon')(path.join(__dirname, './public/favicon.ico')),
   require('koa-compress')({
@@ -27,7 +32,6 @@ module.exports = [
     threshold: 2048,
     flush: require('zlib').Z_SYNC_FLUSH
   }),
-  require('koa-json-error')(),
   require('./src/logger')(),
 
   // Dev Plugins
