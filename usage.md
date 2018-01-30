@@ -1,19 +1,69 @@
 # 使用  
-## 目录树
+## 结构树
 ```
 Teng-koa
+│  .editorconfig
+│  .eslintrc.json
+│  .gitignore
+│  config.example.json
+│  core.js
+│  crons.js
+│  list.txt
+│  package.json
+│  plugins.js
+│  Readme.md
+│  routes.js
+│  usage.md
+│  yarn.lock
+│  
 ├─img
+│      screenshot.png
+│      
 ├─logs
+│      readme.md
+│      
 ├─public
+│      favicon.ico
+│      
 ├─src
+│  │  cache.js
+│  │  controller.js
+│  │  cron.js
+│  │  db.js
+│  │  logger.js
+│  │  mail.js
+│  │  prestart.js
+│  │  route.js
+│  │  utils.js
+│  │  
 │  ├─controllers
+│  │      hello.js
+│  │      netease.js
+│  │      status.js
+│  │      
 │  ├─crons
+│  │      countRequests.js
+│  │      
 │  ├─middlewares
+│  │      countRequests.js
+│  │      MailError.js
+│  │      requestId.js
+│  │      responseHandler.js
+│  │      
 │  └─models
 │      ├─behaviors
+│      │      test.js
+│      │      
 │      └─databases
+│              model.js
+│              test.js
+│              
 └─test
+    │  .eslintrc.json
+    │  
     └─unit
+            mail.js
+            test.js
 
 ```
 ## 中间件 / 插件  
