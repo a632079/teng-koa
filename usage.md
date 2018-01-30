@@ -2,23 +2,14 @@
 ## 结构树
 ```
 Teng-koa
-│  .editorconfig
-│  .eslintrc.json
-│  .gitignore
-│  config.example.json
+│  config.json
 │  core.js
 │  crons.js
-│  list.txt
 │  package.json
 │  plugins.js
-│  Readme.md
 │  routes.js
-│  usage.md
 │  yarn.lock
-│  
-├─img
-│      screenshot.png
-│      
+│       
 ├─logs
 │      readme.md
 │      
