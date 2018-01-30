@@ -2,7 +2,7 @@
 
 ![alt](./img/screenshot.png)
 > 项目已经通过生产测试。 目前附带的 Demo
-* Live Demo: https://api.a632079.me/ (Hitokoto API + NeteaseCloud Music API)
+* Live Demo: https://api.a632079.me/ (Hitokoto API + NeteaseCloud Music API) [使用说明](https://i.a632079.me/api/)
 
 * Demo: 网易云 API (基于 `simple-netease-cloud-music`)
 * Demo: 请求数统计 (过去一分钟，过去一小时，过去一天)
