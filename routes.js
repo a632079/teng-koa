@@ -1,14 +1,17 @@
 'use strict'
 module.exports = (router, controller) => {
   // Route Map
+
+  // Hello World
   router.get('/', async (ctx, next) => {
     ctx.body = {
       message: 'Hello World',
       ts: Date.now()
     }
   })
-
   router.get('/test', controller.hello.index)
+
+  // Status
   router.get('/status', controller.status)
 
   // Netease API
@@ -20,6 +23,8 @@ module.exports = (router, controller) => {
   router.get('/nm/lyric/:id', controller.netease.lyric)
   router.get('/nm/url/:id', controller.netease.url)
   router.get('/nm/detail/:id', controller.netease.detail)
+  router.get('/nm/summary/:id', controller.netease.summary)
+  router.get('/nm/redirect/music/:id', controller.netease.redirect)
 
   return router
 }

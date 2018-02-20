@@ -47,7 +47,7 @@ module.exports = async (ctx, next) => {
     // feedback: {
     //   a632079: 'a632079@qq.com'
     // },
-    copyright: pkg.name' © ' + new Date().getFullYear() + ' All Rights Reserved. Powered by Teng-koa ( https://github.com/a632079/teng-koa ).',
+    copyright: pkg.name + ' © ' + new Date().getFullYear() + ' All Rights Reserved. Powered by Teng-koa ( https://github.com/a632079/teng-koa ).',
     now: new Date(Date.now()).toString(),
     ts: Date.now()
   }

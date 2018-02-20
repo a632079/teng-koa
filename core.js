@@ -25,9 +25,9 @@ cron.load()
 async function registerMiddlewares () {
   try {
     const middlewares = require('./plugins')
-    await middlewares.map((middleware, index, input) => {
+    for (let middleware of middlewares) {
       app.use(middleware)
-    })
+    }
     winston.verbose('All Plugins Load done.')
   } catch (e) {
     winston.error(e)
@@ -39,16 +39,10 @@ async function registerMiddlewares () {
 // Load Route
 async function registerRoutes (routes) {
   try {
-    await routes.then(router => {
-      app
-        .use(router.routes())
-        .use(router.allowedMethods())
-    })
-      .catch(err => {
-        winston.error(err)
-        // mail.error(err)
-        process.exit(1)
-      })
+    const router = await routes
+    app
+      .use(router.routes())
+      .use(router.allowedMethods())
     winston.verbose('All Routes Load done.')
   } catch (e) {
     winston.error(e)
