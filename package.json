@@ -54,6 +54,7 @@
     "nconf": "^0.10.0",
     "nodemailer": "^4.4.2",
     "passthrough-counter": "^1.0.0",
+    "pify": "^3.0.0",
     "redis": "^2.8.0",
     "sequelize": "^4.32.2",
     "simple-netease-cloud-music": "https://github.com/a632079/simple-netease-cloud-music.git",
