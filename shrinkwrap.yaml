@@ -7,6 +7,7 @@ dependencies:
   colors: 1.1.2
   cron: 1.3.0
   humanize-number: 0.0.2
+  iconv-lite: 0.4.23
   kcors: 2.2.1
   koa: 2.5.0
   koa-bodyparser: 4.2.0
@@ -22,12 +23,13 @@ dependencies:
   lodash.curry: 4.1.1
   mysql2: 1.5.2
   nconf: 0.10.0
+  netease-music-sdk: 0.3.1
   nodemailer: 4.4.2
   passthrough-counter: 1.0.0
   pify: 3.0.0
   redis: 2.8.0
   sequelize: 4.33.4
-  simple-netease-cloud-music: github.com/a632079/simple-netease-cloud-music/6138128704a2e59766311f884da60e627e9e720c
+  simple-netease-cloud-music: 0.3.4
   uuid: 3.2.1
   winston: 2.4.0
 devDependencies:
@@ -221,6 +223,13 @@ packages:
     resolution:
       integrity: sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
       tarball: 'http://registry.npm.taobao.org/balanced-match/download/balanced-match-1.0.0.tgz'
+  /big-integer/1.6.28:
+    dev: false
+    engines:
+      node: '>=0.6'
+    resolution:
+      integrity: sha1-jO8P2jzN6HWcLGbvz6zDWuplgoM=
+      tarball: 'http://registry.npm.taobao.org/big-integer/download/big-integer-1.6.28.tgz'
   /bluebird/3.5.1:
     dev: false
     resolution:
@@ -1178,6 +1187,15 @@ packages:
     resolution:
       integrity: sha1-90aPYBNfXl2tM5nAqBvpoWA6CCs=
       tarball: 'http://registry.npm.taobao.org/iconv-lite/download/iconv-lite-0.4.19.tgz'
+  /iconv-lite/0.4.23:
+    dependencies:
+      safer-buffer: 2.1.2
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-KXhx9jvlB63Pv8pxXQzQ7thOmmM=
+      tarball: 'http://registry.npm.taobao.org/iconv-lite/download/iconv-lite-0.4.23.tgz'
   /ienoopen/1.0.0:
     dev: false
     resolution:
@@ -1759,6 +1777,14 @@ packages:
     resolution:
       integrity: sha1-KzJxhOiZIQEXeyhWP7XnECrNDKk=
       tarball: 'http://registry.npm.taobao.org/negotiator/download/negotiator-0.6.1.tgz'
+  /netease-music-sdk/0.3.1:
+    dependencies:
+      axios: 0.17.1
+      big-integer: 1.6.28
+    dev: false
+    resolution:
+      integrity: sha1-naYWg3Tf1TzejnGuIret3U/+Scc=
+      tarball: 'http://registry.npm.taobao.org/netease-music-sdk/download/netease-music-sdk-0.3.1.tgz'
   /nocache/2.0.0:
     dev: false
     resolution:
@@ -2236,6 +2262,11 @@ packages:
     resolution:
       integrity: sha1-iTMSr2myEj3vcfV4iQAWce6yyFM=
       tarball: 'http://registry.npm.taobao.org/safe-buffer/download/safe-buffer-5.1.1.tgz'
+  /safer-buffer/2.1.2:
+    dev: false
+    resolution:
+      integrity: sha1-RPoWGwGHuVSd2Eu5GAL5vYOFzWo=
+      tarball: 'http://registry.npm.taobao.org/safer-buffer/download/safer-buffer-2.1.2.tgz'
   /secure-keys/1.0.0:
     dev: false
     resolution:
@@ -2310,6 +2341,11 @@ packages:
     resolution:
       integrity: sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
       tarball: 'http://registry.npm.taobao.org/signal-exit/download/signal-exit-3.0.2.tgz'
+  /simple-netease-cloud-music/0.3.4:
+    dev: false
+    resolution:
+      integrity: sha1-9LwYFjCdIEim81CeAM2qC0bu2cE=
+      tarball: 'http://registry.npm.taobao.org/simple-netease-cloud-music/download/simple-netease-cloud-music-0.3.4.tgz'
   /slice-ansi/1.0.0:
     dependencies:
       is-fullwidth-code-point: 2.0.0
@@ -2692,14 +2728,8 @@ packages:
     resolution:
       integrity: sha1-AwiOnr+edWtpdRYR0qXvWRSCyZU=
       tarball: 'http://registry.npm.taobao.org/yargs/download/yargs-3.32.0.tgz'
-  github.com/a632079/simple-netease-cloud-music/6138128704a2e59766311f884da60e627e9e720c:
-    dev: false
-    name: simple-netease-cloud-music
-    resolution:
-      tarball: 'https://codeload.github.com/a632079/simple-netease-cloud-music/tar.gz/6138128704a2e59766311f884da60e627e9e720c'
-    version: 0.3.4
 registry: 'https://registry.npm.taobao.org/'
-shrinkwrapMinorVersion: 4
+shrinkwrapMinorVersion: 5
 shrinkwrapVersion: 3
 specifiers:
   async: ^2.6.0
@@ -2717,6 +2747,7 @@ specifiers:
   eslint-plugin-promise: ^3.6.0
   eslint-plugin-standard: ^3.0.1
   humanize-number: ^0.0.2
+  iconv-lite: ^0.4.19
   kcors: ^2.2.1
   koa: ^2.4.1
   koa-bodyparser: ^4.2.0
@@ -2734,13 +2765,14 @@ specifiers:
   mocha: ^5.0.0
   mysql2: ^1.5.1
   nconf: ^0.10.0
+  netease-music-sdk: ^0.3.1
   nodemailer: ^4.4.2
   nyc: ^11.4.1
   passthrough-counter: ^1.0.0
   pify: ^3.0.0
   redis: ^2.8.0
   sequelize: ^4.32.2
-  simple-netease-cloud-music: 'git+https://github.com/a632079/simple-netease-cloud-music.git'
+  simple-netease-cloud-music: ^0.3.4
   supervisor: ^0.12.0
   uuid: ^3.2.1
   winston: ^2.4.0

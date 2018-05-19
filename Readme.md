@@ -2,12 +2,17 @@
 
 ![alt](./img/screenshot.png)
 > 项目已经通过生产测试。 目前附带的 Demo
-* Live Demo: https://api.a632079.me/ (Hitokoto API + NeteaseCloud Music API) [使用说明](https://i.a632079.me/api/)
+* Live Demo: https://api.a632079.me/ (Hitokoto API + NeteaseCloud Music API) [使用说明](https://i.a632079.me/post/api/)
 
 * Demo: 网易云 API (基于 `simple-netease-cloud-music`)
 * Demo: 请求数统计 (过去一分钟，过去一小时，过去一天)
 
+> 考虑开源一言 (预计下一次更新就是开放一言的时间)
+
 本项目是基于 Koa v2 的 RESTful API 框架实现，目前已经实现的功能:
+> 可以使用 `install.sh` 在 CentOS/Ubuntu 下快捷安装 Node.js
+> 可以使用 `update.sh` 在 Linux 下通过 Git 快捷更新 您修改后的API
+
 * 自动化加载的路由
 * 自动化加载的控制器
 * 易用的日记系统
@@ -17,6 +22,8 @@
 * 邮件发送模块 （提供 API服务错误时发送邮件给管理员 的功能）
 * 简单的 SQL ORM 实现
 * 简单的 Redis Cache 系统
+* 支持 Docker
+* 支持负载均衡部署
 
 
 ## 开始

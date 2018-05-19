@@ -4,7 +4,7 @@ module.exports = [
   // MiddleWares
   require('./src/middlewares/requestId')(),
   require('./src/middlewares/responseHandler')(),
-  require('./src/middlewares/countRequests')(),
+  require('./src/middlewares/countRequest')(),
 
   // Mail Error
   require('./src/middlewares/MailError')(),

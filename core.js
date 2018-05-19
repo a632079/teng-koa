@@ -3,13 +3,24 @@
 // Import Packages
 const winston = require('winston')
 const nconf = require('nconf')
+const path = require('path')
 const colors = require('colors/safe')
 const Koa = require('koa') // Koa v2
 // const mail = require('./src/mail')
 
+// Read Command
+let configFile
+const paramsArray = process.argv.slice(2)
+if (paramsArray.length > 1) {
+  // exist params
+  if (paramsArray[0] === '--config_file') {
+    configFile = path.join('./', paramsArray[1])
+  }
+}
+
 // PreStart
 const preStart = require('./src/prestart')
-preStart.load()
+preStart.load(configFile)
 
 // Use blubird promise
 global.Promise = require('bluebird')
@@ -25,9 +36,9 @@ cron.load()
 async function registerMiddlewares () {
   try {
     const middlewares = require('./plugins')
-    for (let middleware of middlewares) {
+    await middlewares.map((middleware, index, input) => {
       app.use(middleware)
-    }
+    })
     winston.verbose('All Plugins Load done.')
   } catch (e) {
     winston.error(e)
@@ -39,10 +50,16 @@ async function registerMiddlewares () {
 // Load Route
 async function registerRoutes (routes) {
   try {
-    const router = await routes
-    app
-      .use(router.routes())
-      .use(router.allowedMethods())
+    await routes.then(router => {
+      app
+        .use(router.routes())
+        .use(router.allowedMethods())
+    })
+      .catch(err => {
+        winston.error(err)
+        // mail.error(err)
+        process.exit(1)
+      })
     winston.verbose('All Routes Load done.')
   } catch (e) {
     winston.error(e)

@@ -1,11 +1,216 @@
 // Import Packages
 const NeteaseMusic = require('simple-netease-cloud-music')
 const async = require('async')
+const { MusicClient } = require('netease-music-sdk')
 const pify = require('pify')
 const cache = require('../cache')
+const nconf = require('nconf')
 const nm = new NeteaseMusic()
-
+const sdk = new MusicClient()
 const controllers = {}
+
+// get mv data
+controllers.mv = async (ctx, next) => {
+  let mvid
+  try {
+    mvid = Number.parseInt(ctx.params.mvid)
+  } catch (e) {
+    ctx.body = {
+      status: 400,
+      message: '参数必须为数字',
+      ts: Date.now()
+    }
+    return
+  }
+  let result = await cache.get(`nm:mv:${mvid}`, false)
+  if (result) {
+    ctx.set('Content-Type', 'application/json')
+    ctx.body = result
+    return
+  }
+  try {
+    result = await sdk.getMvInfo(mvid)
+    cache.set(`nm:mv:${mvid}`, result, 60 * 60 * 2)
+    ctx.body = result
+  } catch (e) {
+    ctx.status = 404
+    ctx.body = {
+      status: 404
+    }
+  }
+}
+
+// Get DJ Program Info
+controllers.djProgramInfo = async (ctx, next) => {
+  let pid
+  try {
+    pid = Number.parseInt(ctx.params.pid)
+  } catch (e) {
+    ctx.body = {
+      code: 400,
+      message: '参数必须为数字',
+      ts: Date.now()
+    }
+    return
+  }
+  let result = await cache.get(`nm:dj:program:info:${pid}`, false)
+  if (result) {
+    ctx.set('Content-Type', 'application/json')
+    ctx.body = result
+    return
+  }
+  result = await sdk.getRadioProgramInfo(pid)
+  if (result && result.code === 200) {
+    cache.set(`nm:dj:program:info:${pid}`, result, 60 * 60 * 2)
+  }
+  ctx.body = result
+}
+
+// Get DJ detail
+controllers.djDetail = async (ctx, next) => {
+  let rid
+  try {
+    rid = Number.parseInt(ctx.params.rid)
+  } catch (e) {
+    ctx.body = {
+      code: 400,
+      message: '参数必须为数字',
+      ts: Date.now()
+    }
+    return
+  }
+  let result = await cache.get(`nm:dj:info:${rid}`, false)
+  if (result) {
+    ctx.set('Content-Type', 'application/json')
+    ctx.body = result
+    return
+  }
+  result = await sdk.getRadioInfo(rid)
+  if (result && result.code === 200) {
+    cache.set(`nm:dj:info:${rid}`, result, 60 * 60 * 2)
+  }
+  ctx.body = result
+}
+
+// Get DJ Program
+controllers.djProgram = async (ctx, next) => {
+  let rid
+  let limit
+  let offset
+  try {
+    rid = Number.parseInt(ctx.params.rid)
+    limit = ctx.query && ctx.query.limit && typeof ctx.query.limit === 'number' ? ctx.query.limit : 30
+    offset = ctx.query && ctx.query.offset && typeof ctx.query.limit === 'number' ? ctx.query.limit : 0
+  } catch (e) {
+    ctx.body = {
+      code: 400,
+      message: '参数必须为数字',
+      ts: Date.now()
+    }
+    return
+  }
+  const asc = !!(ctx.query && ctx.query.asc)
+  let result = await cache.get(`nm:dj:program:${rid}`, false)
+  if (result) {
+    ctx.set('Content-Type', 'application/json')
+    ctx.body = result
+    return
+  }
+  result = await sdk.getRadioProgram(rid, asc, limit, offset)
+  if (result && result.code === 200) {
+    cache.set(`nm:dj:program:${rid}`, result, 60 * 60 * 2)
+  }
+  ctx.body = result
+}
+
+// Get User DJ
+controllers.userDj = async (ctx, next) => {
+  let uid
+  let offset
+  let limit
+  try {
+    uid = Number.parseInt(ctx.params.uid)
+    limit = ctx.query && ctx.query.limit && typeof ctx.query.limit === 'number' ? ctx.query.limit : 30
+    offset = ctx.query && ctx.query.offset && typeof ctx.query.limit === 'number' ? ctx.query.limit : 0
+  } catch (e) {
+    ctx.body = {
+      code: 400,
+      message: '参数必须为数字',
+      ts: Date.now()
+    }
+    return
+  }
+  let result = await cache.get(`nm:user:dj:${uid}`, false)
+  if (result) {
+    ctx.set('Content-Type', 'application/json')
+    ctx.body = result
+    return
+  }
+  result = await sdk.getUserDj(uid, limit, offset)
+  if (result.code && result.code === 200) {
+    cache.set(`nm:user:dj:${uid}`, result, 60 * 60 * 2)
+  }
+  ctx.body = result
+}
+
+// Get Music Comment
+controllers.musicComment = async (ctx, next) => {
+  let id
+  let offset
+  let limit
+  try {
+    id = Number.parseInt(ctx.params.id)
+    limit = ctx.query && ctx.query.limit && typeof ctx.query.limit === 'number' ? ctx.query.limit : 30
+    offset = ctx.query && ctx.query.offset && typeof ctx.query.limit === 'number' ? ctx.query.limit : 0
+  } catch (e) {
+    ctx.body = {
+      code: 400,
+      message: '参数必须为数字',
+      ts: Date.now()
+    }
+    return
+  }
+  let result = await cache.get(`nm:music:comment:${id}:${limit}:${offset}`, false)
+  if (result) {
+    ctx.set('Content-Type', 'application/json')
+    ctx.body = result
+    return
+  }
+  result = await sdk.getSongComment(id, limit, offset)
+  if (result.code && result.code === 200) {
+    cache.set(`nm:music:comment:${id}:${limit}:${offset}`, result, 60 * 60 * 2) // 2 Hour
+  }
+  ctx.body = result
+}
+
+// Get Music record
+controllers.record = async (ctx, next) => {
+  let uid
+  try {
+    uid = Number.parseInt(ctx.params.uid)
+  } catch (e) {
+    ctx.code = 400
+    ctx.body = {
+      status: 400,
+      message: 'uid 必须为数字',
+      ts: Date.now()
+    }
+    return
+  }
+  const type = ctx.query && ctx.query.weekly ? 1 : 0
+  let result = await cache.get(`nm:user:record:${uid}:${type}`, false)
+  if (result) {
+    ctx.set('Content-Type', 'application/json')
+    ctx.body = result
+    return
+  }
+  result = await sdk.getUserRecord(uid, type)
+  if (result.code && result.code === 200) {
+    cache.set(`nm:user:record:${uid}:${type}`, result, 60 * 60 * 2)
+  }
+  ctx.body = result
+}
+
 // Get Music Summary
 controllers.summary = async (ctx, next) => {
   // Remove End ','
@@ -49,15 +254,47 @@ controllers.redirect = async (ctx, next) => {
   }
 }
 
+const getType = ctx => {
+  if (!(ctx.query && ctx.query.type)) {
+    return 1
+  }
+  const type = ctx.query.type.toLocaleUpperCase()
+  switch (type) {
+    case 'ALBUM':
+      return 10
+    case 'ARTIST':
+      return 100
+    case 'DJ':
+      return 1009
+    case 'LYRIC':
+      return 1006
+    case 'MV':
+      return 1004
+    case 'PLAYLIST':
+      return 1000
+    case 'SONG':
+      return 1
+    case 'USER':
+      return 1002
+    default:
+      return 1
+  }
+}
+
 // Search API
 controllers.search = async (ctx, next) => {
-  let ret
-  if (await cache.get('nm:search:' + ctx.params.id)) {
-    ret = await cache.get('nm:search:' + ctx.params.id)
-  } else {
-    ret = await nm.search(ctx.params.id)
-    cache.set('nm:search:' + ctx.params.id, ret, 60 * 60 * 2) // Cache 2 Hour
+  const keyword = ctx.params.keyword
+  const limit = ctx.query && ctx.query.limit && typeof ctx.query.limit === 'number' ? ctx.query.limit : 30
+  const offset = ctx.query && ctx.query.offset && typeof ctx.query.limit === 'number' ? ctx.query.limit : 0
+  const type = getType(ctx)
+  let ret = await cache.get(`nm:search:${keyword}:${limit}:${offset}:${type}`)
+  if (ret) {
+    ctx.set('Content-Type', 'application/json')
+    ctx.body = ret
+    return
   }
+  ret = await sdk.search(keyword, type, limit, offset)
+  cache.set(`nm:search:${keyword}:${limit}:${offset}:${type}`, ret, 60 * 60 * 2) // Cache 2 Hour
   ctx.body = ret || {
     code: 400,
     message: 'API 在请求时出现了问题，再试一下看看？',
@@ -234,10 +471,10 @@ const silentSummary = async (id, ctx) => {
     if (ids.length > 0) {
       const result = await pify(async).mapLimit(ids, 5, async id => {
         if (ctx.query && ctx.query.lyric) {
-          const ret = await Promise.all([handleSummary(id, true), getLyric(id, true)])
+          const ret = await Promise.all([handleSummary(id, nconf.get('url'), true), getLyric(id, true)])
           return ret
         } else {
-          const ret = await Promise.all([handleSummary(id, true)])
+          const ret = await Promise.all([handleSummary(id, nconf.get('url'), true)])
           return ret
         }
       })
@@ -254,15 +491,15 @@ const quickSummary = async (ID, ctx) => {
   const ids = ID.split(',')
   const result = await pify(async).mapLimit(ids, 5, async id => {
     if (ctx.query && ctx.query.lyric) {
-      return Promise.all([handleSummary(id), getLyric(id)])
+      return Promise.all([handleSummary(id, nconf.get('url')), getLyric(id)])
     } else {
-      return Promise.all([handleSummary(id)])
+      return Promise.all([handleSummary(id, nconf.get('url'))])
     }
   })
   return result
 }
 
-const handleSummary = async (id, check = false) => {
+const handleSummary = async (id, url, check = false) => {
   let Cache
   Cache = await cache.get('nm:song:' + id)
   if (Cache) {
@@ -272,7 +509,7 @@ const handleSummary = async (id, check = false) => {
   const cacheTime = check ? 60 * 60 * 24 * 7 : 60 * 60 * 2
   const data = {}
   data.id = id
-  data.url = 'https://api.a632079.me/nm/redirect/music/' + id
+  data.url = url + '/nm/redirect/music/' + id
 
   // Get Music Detail
   let detail

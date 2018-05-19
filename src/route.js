@@ -10,18 +10,19 @@ class route {
   }
 
   async routes () {
-    try {
-      let routes
-      const controller = await this.controller
-      // Load RouteMap
-      const Router = require('koa-router')
-      const RouteMap = require(path.join(__dirname, '../', './routes'))(new Router(), controller)
-      routes = RouteMap
-      return routes
-    } catch (err) {
-      winston.error(err)
-      process.exit(1)
-    }
+    let routes
+    await this.controller
+      .then((controller) => {
+        // Load RouteMap
+        const Router = require('koa-router')
+        const RouteMap = require(path.join(__dirname, '../', './routes'))(new Router(), controller)
+        routes = RouteMap
+      })
+      .catch(err => {
+        winston.error(err)
+        process.exit(1)
+      })
+    return routes
   }
 }
 module.exports = route
