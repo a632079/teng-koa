@@ -128,10 +128,8 @@ module.exports = async (ctx, next) => {
   let hosts = {}
   // Generate totals
   let limitHost = [
-    'v1.hitokoto.cn',
-    'api.hitokoto.cn',
-    'sslapi.hitokoto.cn',
-    'api.a632079.me'
+    // please add your own host
+    'example.com'
   ]
   const HostToDelete = []
   for (let i of limitHost) {

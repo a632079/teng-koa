@@ -35,6 +35,8 @@ $ cp config.json.example config.json
 $ yarn init && git init
 ``` 
 
+> 开始使用前， 请为 `./src/controllers/status.js` 中的 limitHost 添加您所需要的域名 (处于安全考虑， 防止泄露您的 IP)
+
 由于项目的设计初衷是 RESTful API 的易用轮子，所以并未考虑视图，有需要的可自行集成。
 如果在使用中碰到问题或者您有更好的实现，想法，欢迎联系我。
 
